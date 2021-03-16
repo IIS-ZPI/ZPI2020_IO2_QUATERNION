@@ -1,6 +1,5 @@
 public class App {
     public static void main(String[] args) {
-        System.out.println("Quaternion\nScrum Master\nszezjo");
-        System.out.println("Quaternion\nDeveloper\nkateTsarova");
+        System.out.println("Quaternion\nScrum Master\nszezjo\nWixaxis\nwolf4fun\nkateTsarova");
     }
 }
