@@ -1,3 +1,4 @@
+// interface for addition
 interface IArithmeticsAdd {
     double Addition(double A, double B);
 }
