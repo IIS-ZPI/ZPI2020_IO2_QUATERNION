@@ -1,5 +1,6 @@
 interface IArithmeticsAdd {
     double Addition(double A, double B);
+    // Little comment there
 }
 
 interface IArithmeticsDiff {
