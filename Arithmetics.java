@@ -30,6 +30,8 @@ public class Arithmetics implements IArithmeticsAdd, IArithmeticsDiff, IArithmet
         return A * B;
     }
 
+    //commit3
+
     @Override
     public double Division(double A, double B) {
         if (B == 0)
