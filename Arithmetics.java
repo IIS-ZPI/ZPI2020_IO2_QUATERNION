@@ -4,6 +4,7 @@ interface IArithmeticsAdd {
 
 interface IArithmeticsDiff {
     double Difference(double A, double B);
+    //Comment from Wixaxis 2
 }
 
 interface IArithmeticMult {
