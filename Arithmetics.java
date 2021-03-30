@@ -8,6 +8,7 @@ interface IArithmeticsDiff {
 
 interface IArithmeticMult {
     double Multiplication(double A, double B);
+    //third comment of Wixaxis
 }
 
 interface IArithmeticsDiv {
