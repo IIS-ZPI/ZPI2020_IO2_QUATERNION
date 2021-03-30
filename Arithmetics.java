@@ -1,5 +1,6 @@
 interface IArithmeticsAdd {
     double Addition(double A, double B);
+    //Comment of Wixaxis no. 1
 }
 
 interface IArithmeticsDiff {
