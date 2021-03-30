@@ -6,6 +6,7 @@ interface IArithmeticsDiff {
     double Difference(double A, double B);
 }
 
+// interface for multiplication
 interface IArithmeticMult {
     double Multiplication(double A, double B);
 }
