@@ -1,9 +1,11 @@
 interface IArithmeticsAdd {
     double Addition(double A, double B);
+    //Comment of Wixaxis no. 1
 }
 
 interface IArithmeticsDiff {
     double Difference(double A, double B);
+    //Comment from Wixaxis 2
 }
 
 interface IArithmeticMult {
