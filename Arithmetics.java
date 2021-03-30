@@ -20,6 +20,8 @@ public class Arithmetics implements IArithmeticsAdd, IArithmeticsDiff, IArithmet
         return A + B;
     }
 
+    //comment 1
+
     @Override
     public double Difference(double A, double B) {
         return A - B;
