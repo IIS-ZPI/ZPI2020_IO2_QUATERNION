@@ -11,6 +11,7 @@ interface IArithmeticMult {
     double Multiplication(double A, double B);
 }
 
+// interface for division
 interface IArithmeticsDiv {
     double Division(double A, double B);
 }
