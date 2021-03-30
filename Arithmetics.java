@@ -3,6 +3,7 @@ interface IArithmeticsAdd {
     double Addition(double A, double B);
 }
 
+// interface for subtraction
 interface IArithmeticsDiff {
     double Difference(double A, double B);
 }
