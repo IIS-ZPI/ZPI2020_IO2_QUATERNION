@@ -15,6 +15,7 @@ interface IArithmeticMult {
 
 interface IArithmeticsDiv {
     double Division(double A, double B);
+    //New feature for 6th excercise from Wixaxis
 }
 
 public class Arithmetics implements IArithmeticsAdd, IArithmeticsDiff, IArithmeticMult, IArithmeticsDiv {
