@@ -21,16 +21,21 @@ public class Arithmetics implements IArithmeticsAdd, IArithmeticsDiff, IArithmet
         return A + B;
     }
 
+    //comment 1
+
     @Override
     public double Difference(double A, double B) {
         return A - B;
     }
 
+    //comment2
     @Override
     public double Multiplication(double A, double B) {
         // And little comment over there
         return A * B;
     }
+
+    //commit3
 
     @Override
     public double Division(double A, double B) {
