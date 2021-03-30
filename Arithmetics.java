@@ -1,18 +1,22 @@
 interface IArithmeticsAdd {
     double Addition(double A, double B);
+    //Comment of Wixaxis no. 1
     // Little comment there
 }
 
 interface IArithmeticsDiff {
     double Difference(double A, double B);
+    //Comment from Wixaxis 2
 }
 
 interface IArithmeticMult {
     double Multiplication(double A, double B);
+    //third comment of Wixaxis
 }
 
 interface IArithmeticsDiv {
     double Division(double A, double B);
+    //New feature for 6th excercise from Wixaxis
 }
 
 public class Arithmetics implements IArithmeticsAdd, IArithmeticsDiff, IArithmeticMult, IArithmeticsDiv {
