@@ -1,3 +1,4 @@
+// interface for addition
 interface IArithmeticsAdd {
     double Addition(double A, double B);
     //Comment of Wixaxis no. 1
@@ -9,11 +10,13 @@ interface IArithmeticsDiff {
     //Comment from Wixaxis 2
 }
 
+// interface for multiplication
 interface IArithmeticMult {
     double Multiplication(double A, double B);
     //third comment of Wixaxis
 }
 
+// interface for division
 interface IArithmeticsDiv {
     double Division(double A, double B);
     //New feature for 6th excercise from Wixaxis
