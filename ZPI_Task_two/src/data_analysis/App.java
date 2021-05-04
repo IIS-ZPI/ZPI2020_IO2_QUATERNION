@@ -25,18 +25,18 @@ public class App {
             return;
         }
 
-        ArrayList<Double> mids = new ArrayList<>();
+        ArrayList<Double> data = new ArrayList<>();
 
-        Document doc2 = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
-        for (Element e : doc2.select("Mid")) {
-            mids.add(Double.parseDouble(e.text()));
+        Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
+        for (Element e : doc.select("Mid")) {
+            data.add(Double.parseDouble(e.text()));
         }
 
         System.out.println();
-        System.out.println("median: "+StatisticalMeasures.getMedian(mids));
-        System.out.println("mode: "+StatisticalMeasures.getMode(mids));
-        System.out.println("standard deviation: "+StatisticalMeasures.getStandardDeviation(mids));
-        System.out.println("coefficient of variation: "+StatisticalMeasures.getCoefficientOfVariation(mids));
+        System.out.println("median: "+StatisticalMeasures.getMedian(data));
+        System.out.println("mode: "+StatisticalMeasures.getMode(data));
+        System.out.println("standard deviation: "+StatisticalMeasures.getStandardDeviation(data));
+        System.out.println("coefficient of variation: "+StatisticalMeasures.getCoefficientOfVariation(data));
     }
 
     public static void main(String[] args) throws Exception {
@@ -67,6 +67,7 @@ public class App {
             timePeriod = timePeriods.get(key);
         }
         catch (Exception e){
+            System.out.println("Wrong input data");
             System.exit(0);
         }
 
