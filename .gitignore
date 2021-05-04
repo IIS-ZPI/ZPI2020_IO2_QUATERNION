@@ -1,0 +1,7 @@
+zpi_proj/.classpath
+zpi_proj/.project
+zpi_proj/.settings/org.eclipse.core.resources.prefs
+zpi_proj/.settings/org.eclipse.jdt.apt.core.prefs
+zpi_proj/.settings/org.eclipse.jdt.core.prefs
+zpi_proj/target/classes/com/example/App.class
+zpi_proj/target/test-classes/com/example/AppTest.class
