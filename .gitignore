@@ -59,3 +59,4 @@ zpi_proj/target/classes/com/example/App.class
 zpi_proj/target/test-classes/com/example/AppTest.class
 
 # End of https://www.toptal.com/developers/gitignore/api/vscode,maven,java
+.vscode/settings.json
