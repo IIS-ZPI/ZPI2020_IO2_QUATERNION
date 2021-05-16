@@ -39,7 +39,49 @@ public class App {
         System.out.println("coefficient of variation: "+StatisticalMeasures.getCoefficientOfVariation(data));
     }
 
+    static void showNumberOfSession(String currency, int timePeriod) throws IOException {
+        String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/" + (timePeriod+1) + "/?format=xml";
+        String doc_to_str = "";
+        try {
+            Document doc = Jsoup.connect(url).get();
+            doc_to_str = doc.toString();
+        }catch (Exception e){
+            System.out.println("Wrong input data");
+            return;
+        }
+
+        ArrayList<Double> data = new ArrayList<>();
+
+        Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
+        for (Element e : doc.select("Mid")) {
+            data.add(Double.parseDouble(e.text()));
+        }
+
+        int wzrost = 0;
+        int spadek = 0;
+        int bez_zmian = 0;
+        for(int i = 1; i < data.size(); i++){
+            if(data.get(i)>data.get(i-1))
+                wzrost++;
+        }
+        for(int i = 1; i < data.size(); i++){
+            if(data.get(i)<data.get(i-1))
+                spadek++;
+        }
+        for(int i = 1; i < data.size(); i++){
+            //System.out.println(data.get(i)+ " " + data.get(i - 1) + " ");
+            if(data.get(i).equals(data.get(i - 1)))
+                bez_zmian++;
+        }
+
+        System.out.println();
+        System.out.println("ilość sesji wzrostowych: "+wzrost);
+        System.out.println("ilość sesji spadkowych: "+spadek);
+        System.out.println("ilość sesji bez zmian: "+bez_zmian);
+    }
+
     public static void main(String[] args) throws Exception {
+        /*
         HashMap<Integer, Integer> timePeriods = new HashMap<>();
         timePeriods.put(1, 7);
         timePeriods.put(2, 14);
@@ -83,7 +125,10 @@ public class App {
             showStatisticalMeasuresFromXML(currency, timePeriod);
         }
         else if(action == 2){
-
+            iloscSesji("usd", 7);
         }
+
+         */
+        showNumberOfSession("usd", 200);
     }
 }
