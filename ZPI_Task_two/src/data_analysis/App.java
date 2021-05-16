@@ -82,7 +82,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         action = Integer.parseInt(scanner.nextLine());
         if(action != 1 && action != 2){
-            System.out.println("Wrong input data");
+            System.out.println("Wrong input data (operation)");
             System.exit(0);
         }
 
@@ -91,6 +91,7 @@ public class App {
             currency = scanner.nextLine();
         }
         catch (Exception e){
+            System.out.println("Wrong input data (currency)");
             System.exit(0);
         }
         System.out.println("wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
@@ -99,7 +100,7 @@ public class App {
             timePeriod = timePeriods.get(key);
         }
         catch (Exception e){
-            System.out.println("Wrong input data");
+            System.out.println("Wrong input data (time period)");
             System.exit(0);
         }
 
