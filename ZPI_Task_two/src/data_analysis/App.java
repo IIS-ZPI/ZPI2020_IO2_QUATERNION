@@ -48,12 +48,20 @@ public class App {
         timePeriods.put(5, 182);
         timePeriods.put(6, 365);
 
-        System.out.println("miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności za wybrany okres i dla wybranej wality");
+        System.out.println("1 - ilość sesji wzrostowych, spadkowych i bez zmian za wybrany okres i dla wybranej wality");
+        System.out.println("2 - miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności za wybrany okres i dla wybranej wality");
 
+        int action = 0;
         String currency = "";
         int timePeriod = 0;
 
         Scanner scanner = new Scanner(System.in);
+        action = Integer.parseInt(scanner.nextLine());
+        if(action != 1 && action != 2){
+            System.out.println("Wrong input data");
+            System.exit(0);
+        }
+
         System.out.println("wpisz walutę: ");
         try {
             currency = scanner.nextLine();
@@ -71,6 +79,11 @@ public class App {
             System.exit(0);
         }
 
-        showStatisticalMeasuresFromXML(currency, timePeriod);
+        if(action == 1) {
+            showStatisticalMeasuresFromXML(currency, timePeriod);
+        }
+        else if(action == 2){
+
+        }
     }
 }
