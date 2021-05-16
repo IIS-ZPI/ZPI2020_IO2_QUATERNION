@@ -57,31 +57,13 @@ public class App {
             data.add(Double.parseDouble(e.text()));
         }
 
-        int wzrost = 0;
-        int spadek = 0;
-        int bez_zmian = 0;
-        for(int i = 1; i < data.size(); i++){
-            if(data.get(i)>data.get(i-1))
-                wzrost++;
-        }
-        for(int i = 1; i < data.size(); i++){
-            if(data.get(i)<data.get(i-1))
-                spadek++;
-        }
-        for(int i = 1; i < data.size(); i++){
-            //System.out.println(data.get(i)+ " " + data.get(i - 1) + " ");
-            if(data.get(i).equals(data.get(i - 1)))
-                bez_zmian++;
-        }
-
         System.out.println();
-        System.out.println("ilość sesji wzrostowych: "+wzrost);
-        System.out.println("ilość sesji spadkowych: "+spadek);
-        System.out.println("ilość sesji bez zmian: "+bez_zmian);
+        System.out.println("ilość sesji wzrostowych: "+SessionAnalysis.getNumberOfIncreasingSessions(data));
+        System.out.println("ilość sesji spadkowych: "+SessionAnalysis.getNumberOfDecreasingSessions(data));
+        System.out.println("ilość sesji bez zmian: "+SessionAnalysis.getNumberOfSessionsWithoutChange(data));
     }
 
     public static void main(String[] args) throws Exception {
-        /*
         HashMap<Integer, Integer> timePeriods = new HashMap<>();
         timePeriods.put(1, 7);
         timePeriods.put(2, 14);
@@ -122,13 +104,10 @@ public class App {
         }
 
         if(action == 1) {
+            showNumberOfSession(currency, timePeriod);
+        }
+        else {
             showStatisticalMeasuresFromXML(currency, timePeriod);
         }
-        else if(action == 2){
-            iloscSesji("usd", 7);
-        }
-
-         */
-        showNumberOfSession("usd", 200);
     }
 }
