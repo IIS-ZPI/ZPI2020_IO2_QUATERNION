@@ -5,6 +5,8 @@ import java.util.Collections;
 
 public class StatisticalMeasures {
     static double getMedian(ArrayList<Double> list){
+        if(list==null || list.isEmpty())
+            return -1;
         Collections.sort(list);
         double median;
         if (list.size() % 2 == 0)
@@ -15,6 +17,8 @@ public class StatisticalMeasures {
     }
 
     static double getMode(ArrayList<Double> list){
+        if(list==null || list.isEmpty())
+            return -1;
         double maxValue = 0;
         int maxCount = 0;
 
@@ -34,6 +38,8 @@ public class StatisticalMeasures {
     }
 
     static double getMean(ArrayList<Double> list){
+        if(list==null || list.isEmpty())
+            return -1;
         double sum = 0.0;
 
         for(double num : list) {
@@ -44,6 +50,8 @@ public class StatisticalMeasures {
     }
 
     static double getStandardDeviation(ArrayList<Double> list){
+        if(list==null || list.isEmpty())
+            return -1;
         double standardDeviation = 0.0;
         double mean = getMean(list);
 
@@ -55,6 +63,8 @@ public class StatisticalMeasures {
     }
 
     static double getCoefficientOfVariation(ArrayList<Double> list){
+        if(list==null || list.isEmpty())
+            return -1;
         return (getStandardDeviation(list) / getMean(list));
     }
 }
