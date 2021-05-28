@@ -1,4 +1,4 @@
-package data_analysis;
+package com.example;
 
 import java.util.ArrayList;
 import java.util.Collections;

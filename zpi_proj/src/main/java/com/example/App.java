@@ -1,4 +1,4 @@
-package data_analysis;
+package com.example;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
