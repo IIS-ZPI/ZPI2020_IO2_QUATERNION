@@ -27,11 +27,7 @@ public class App {
             data.add(Double.parseDouble(e.text()));
         }
 
-        System.out.println();
-        System.out.println("median: "+StatisticalMeasures.getMedian(data));
-        System.out.println("mode: "+StatisticalMeasures.getMode(data));
-        System.out.println("standard deviation: "+StatisticalMeasures.getStandardDeviation(data));
-        System.out.println("coefficient of variation: "+StatisticalMeasures.getCoefficientOfVariation(data));
+        System.out.println(new StatisticalMeasures(data));
     }
 
     static void showNumberOfSession(String currency, int timePeriod) throws IOException {
