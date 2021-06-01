@@ -1,7 +1,6 @@
 package com.example;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class SessionAnalysis {
     static int getNumberOfIncreasingSessions(ArrayList<Double> data){

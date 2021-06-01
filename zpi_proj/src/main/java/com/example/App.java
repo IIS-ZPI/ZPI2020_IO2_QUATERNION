@@ -4,13 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.*;
 
 public class App {
@@ -72,8 +66,8 @@ public class App {
         timePeriods.put(5, 182);
         timePeriods.put(6, 365);
 
-        System.out.println("1 - ilość sesji wzrostowych, spadkowych i bez zmian za wybrany okres i dla wybranej wality");
-        System.out.println("2 - miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności za wybrany okres i dla wybranej wality");
+        System.out.println("1 - Ilość sesji wzrostowych, spadkowych i bez zmian w wybranym okresie i dla wybranej waluty.");
+        System.out.println("2 - Miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności w wybranym okresie i dla wybranej waluty.");
 
         int action = 0;
         String currency = "";
@@ -86,7 +80,7 @@ public class App {
             System.exit(0);
         }
 
-        System.out.println("wpisz walutę: ");
+        System.out.println("Wpisz walutę: ");
         try {
             currency = scanner.nextLine();
         }
