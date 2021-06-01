@@ -63,7 +63,7 @@ public class App {
         System.out.println("ilość sesji bez zmian: "+SessionAnalysis.getNumberOfSessionsWithoutChange(data));
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         HashMap<Integer, Integer> timePeriods = new HashMap<>();
         timePeriods.put(1, 7);
         timePeriods.put(2, 14);
@@ -104,11 +104,17 @@ public class App {
             System.exit(0);
         }
 
-        if(action == 1) {
-            showNumberOfSession(currency, timePeriod);
+        try {
+            if(action == 1) {
+                showNumberOfSession(currency, timePeriod);
+            }
+            else {
+                showStatisticalMeasuresFromXML(currency, timePeriod);
+            }
+        } catch (Exception e) {
+            e.getStackTrace();
         }
-        else {
-            showStatisticalMeasuresFromXML(currency, timePeriod);
-        }
+        
+        scanner.close();
     }
 }
