@@ -22,7 +22,6 @@ public class App {
         }
 
         ArrayList<Double> data = new ArrayList<>();
-
         Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
         for (Element e : doc.select("Mid")) {
             data.add(Double.parseDouble(e.text()));
@@ -91,9 +90,7 @@ public class App {
             System.exit(0);
         }
 
-        System.out.println("Avalible currency");
-        System.out.println(avalibleCurrencies);
-        System.out.println("Please type your currency code");
+        System.out.println("Avalible currency\n" + avalibleCurrencies + "\nPlease type your currency code");
         currency = scanner.nextLine();
         if (!avalibleCurrencies.contains(currency)){
             System.out.println("Incorrect currency code");
