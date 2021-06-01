@@ -60,9 +60,5 @@ zpi_proj/target/
 # End of https://www.toptal.com/developers/gitignore/api/vscode,maven,java
 zpi_proj/target/test-classes/com/example/AppTest.class
 zpi_proj/target/classes/com/example/App.class
-zpi_proj/src/main/java/com/example/NBP.java
-zpi_proj/src/main/java/com/example/NationalRate.java
-zpi_proj/src/main/java/com/example/JsonDataGetter.java
-zpi_proj/src/main/java/com/example/App.java
 zpi_proj/.settings/org.eclipse.jdt.core.prefs
 zpi_proj/.classpath
