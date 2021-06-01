@@ -10,7 +10,7 @@ public class StatisticalMeasures {
         if (list == null || list.isEmpty())
             return -1;
         List<Double> listCopy = new ArrayList<>(list);
-        Collections.sort(list);
+        Collections.sort(listCopy);
         double median;
         if (listCopy.size() % 2 == 0)
             median = (listCopy.get(listCopy.size() / 2) + (listCopy.get(listCopy.size() / 2 - 1))) / 2;
