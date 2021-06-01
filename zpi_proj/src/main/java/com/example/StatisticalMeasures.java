@@ -1,73 +1,107 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class StatisticalMeasures {
+class StatisticalMeasures {
+    private List<Double> list;
+    private List<Double> mode;
+    private double median;
+    private double mean;
+    private double stdDeviotion;
 
-    static double getMedian(List<Double> list) {
+    public List<Double> getMode() {
+        return this.mode;
+    }
+
+    public double getMedian() {
+        return this.median;
+    }
+
+    public double getMean() {
+        return this.mean;
+    }
+
+    public double getStdDeviotion() {
+        return this.stdDeviotion;
+    }
+
+    @Override
+    public String toString() {
+        return "median: " + median + "\nmean: " + mean + "\nmode: "+ mode+ "\nstdDeviotion: " + stdDeviotion;
+       
+    }
+
+    StatisticalMeasures(List<Double> list) {
         if (list == null || list.isEmpty())
-            return -1;
-        List<Double> listCopy = new ArrayList<>(list);
-        Collections.sort(listCopy);
-        double median;
-        if (listCopy.size() % 2 == 0)
-            median = (listCopy.get(listCopy.size() / 2) + (listCopy.get(listCopy.size() / 2 - 1))) / 2;
+            throw new IncorrectCalculation();
+        this.list = list;
+        this.mean = calculateMean();
+        this.mode = calulateMode();
+        this.median = calculateMedian();
+        this.stdDeviotion = calculateCoefficientOfVariation();
+    }
+
+    class IncorrectCalculation extends RuntimeException {
+        IncorrectCalculation(String errorMessage, Throwable err) {
+            super(errorMessage, err);
+        }
+
+        IncorrectCalculation() {
+            super();
+        }
+    }
+
+    private double calculateMedian() {
+        List<Double> temp = new ArrayList<>(list);
+        Collections.sort(temp);
+        if (temp.size() % 2 == 0)
+            median = (temp.get(temp.size() / 2) + (temp.get(temp.size() / 2 - 1))) / 2;
         else
-            median = listCopy.get(listCopy.size() / 2);
+            median = temp.get(temp.size() / 2);
         return median;
     }
 
-    static double getMode(List<Double> list) {
-        if (list == null || list.isEmpty())
-            return -1;
-        double maxValue = 0;
-        int maxCount = 0;
+    private List<Double> calulateMode() {
 
-        for (int i = 0; i < list.size(); ++i) {
-            int count = 0;
-            for (int j = 0; j < list.size(); j++) {
-                if (list.get(j).equals(list.get(i)) && i != j)
-                    ++count;
-            }
-
-            if (count > maxCount) {
-                maxCount = count;
-                maxValue = list.get(i);
-            }
+        Map<Double,Integer> occurences = new HashMap<>();
+        for (Double val : list) {
+            occurences.merge(val, 1, Integer::sum);
         }
-        return maxValue;
+
+        Integer max = occurences.entrySet().stream()
+                .max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getValue();
+
+        List<Double> listOfMax = occurences.entrySet().stream().filter(entry -> (entry.getValue()).equals(max))
+                .map(Map.Entry::getKey).collect(Collectors.toList());
+
+        return listOfMax;
     }
 
-    static double getMean(List<Double> list) {
-        if (list == null || list.isEmpty())
-            return -1;
+    private double calculateMean() {
         double sum = 0.0;
-
         for (double num : list) {
             sum += num;
         }
-
         return sum / list.size();
     }
 
-    static double getStandardDeviation(List<Double> list) {
-        if (list == null || list.isEmpty())
-            return -1;
+    private double getStandardDeviation() {
         double standardDeviation = 0.0;
-        double mean = getMean(list);
-
         for (double num : list) {
             standardDeviation += Math.pow(num - mean, 2);
         }
-
         return Math.sqrt(standardDeviation / list.size());
     }
 
-    static double getCoefficientOfVariation(List<Double> list) {
-        if (list == null || list.isEmpty())
-            return -1;
-        return (getStandardDeviation(list) / getMean(list));
+    private double calculateCoefficientOfVariation() {
+        if (mean == 0)
+            return getStandardDeviation();
+        return getStandardDeviation() / mean;
     }
 }

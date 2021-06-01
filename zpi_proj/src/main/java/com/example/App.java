@@ -4,13 +4,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.*;
 
 public class App {
@@ -32,11 +26,7 @@ public class App {
             data.add(Double.parseDouble(e.text()));
         }
 
-        System.out.println();
-        System.out.println("median: "+StatisticalMeasures.getMedian(data));
-        System.out.println("mode: "+StatisticalMeasures.getMode(data));
-        System.out.println("standard deviation: "+StatisticalMeasures.getStandardDeviation(data));
-        System.out.println("coefficient of variation: "+StatisticalMeasures.getCoefficientOfVariation(data));
+        System.out.println(new StatisticalMeasures(data));
     }
 
     static void showNumberOfSession(String currency, int timePeriod) throws IOException {
