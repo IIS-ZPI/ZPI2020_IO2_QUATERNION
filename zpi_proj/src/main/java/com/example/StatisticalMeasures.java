@@ -13,7 +13,7 @@ class StatisticalMeasures {
     private List<Double> mode;
     private double median;
     private double mean;
-    private double stdDeviotion;
+    private double stdDeviation;
 
     public List<Double> getMode() {
         return this.mode;
@@ -27,13 +27,13 @@ class StatisticalMeasures {
         return this.mean;
     }
 
-    public double getStdDeviotion() {
-        return this.stdDeviotion;
+    public double getStdDeviation() {
+        return this.stdDeviation;
     }
 
     @Override
     public String toString() {
-        return "median: " + median + "\nmean: " + mean + "\nmode: "+ mode+ "\nstdDeviotion: " + stdDeviotion;
+        return "median: " + median + "\nmean: " + mean + "\nmode: "+ mode+ "\nstdDeviotion: " + stdDeviation;
        
     }
 
@@ -44,7 +44,7 @@ class StatisticalMeasures {
         this.mean = calculateMean();
         this.mode = calulateMode();
         this.median = calculateMedian();
-        this.stdDeviotion = calculateCoefficientOfVariation();
+        this.stdDeviation = calculateCoefficientOfVariation();
     }
 
     class IncorrectCalculation extends RuntimeException {
