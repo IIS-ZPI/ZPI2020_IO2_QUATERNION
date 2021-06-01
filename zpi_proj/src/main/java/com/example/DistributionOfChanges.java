@@ -8,7 +8,7 @@ public class DistributionOfChanges {
             return null;
         ArrayList<Double> diff = new ArrayList<>();
         for(int i = 1; i < data.size(); i++){
-            double current_diff = 100 - (data.get(i) * 100 / data.get(i-1));
+            double current_diff = ((data.get(i) / data.get(i-1)) - 1) * 100;
             diff.add(current_diff);
         }
         return diff;
