@@ -3,6 +3,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -53,7 +57,7 @@ public class DataGetter {
 
     public static void main(String[] args) throws Exception {
         final String TEST_URL = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
-        NBP[] a= (NBP[]) getUrlData(TEST_URL, NBP[].class);
-        System.out.println(Arrays.toString(a));
+        NBP[] avalibleCurrenciesTable = (NBP[]) getUrlData(TEST_URL, NBP[].class);
+        List<Object> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).filter(e->e.currency).collect(Collectors.toList());
     }
 }

@@ -80,12 +80,15 @@ public class App {
             System.exit(0);
         }
 
-        System.out.println("Wpisz walutę: ");
+        // Moglibysmy pobierac liste walut i sprawdzac w mapie
+        //
+
+        System.out.println("Please type your currency");
         try {
             currency = scanner.nextLine();
         }
         catch (Exception e){
-            System.out.println("Wrong input data (currency)");
+            System.out.println("Incorrect currency");
             System.exit(0);
         }
         System.out.println("wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
@@ -94,7 +97,7 @@ public class App {
             timePeriod = timePeriods.get(key);
         }
         catch (Exception e){
-            System.out.println("Wrong input data (time period)");
+            System.out.println("Incorrect time peroid");
             System.exit(0);
         }
 
