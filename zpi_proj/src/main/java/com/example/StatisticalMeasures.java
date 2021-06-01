@@ -14,6 +14,7 @@ class StatisticalMeasures {
     private double median;
     private double mean;
     private double stdDeviation;
+    private double coeVar;
 
     public List<Double> getMode() {
         return this.mode;
@@ -31,6 +32,10 @@ class StatisticalMeasures {
         return this.stdDeviation;
     }
 
+    public double getCoeVar(){
+        return this.coeVar;
+    }
+
     @Override
     public String toString() {
         return "median: " + median + "\nmean: " + mean + "\nmode: "+ mode+ "\nstdDeviotion: " + stdDeviation;
@@ -44,7 +49,8 @@ class StatisticalMeasures {
         this.mean = calculateMean();
         this.mode = calulateMode();
         this.median = calculateMedian();
-        this.stdDeviation = calculateCoefficientOfVariation();
+        this.stdDeviation = getStandardDeviation();
+        this.coeVar = calculateCoefficientOfVariation();
     }
 
     class IncorrectCalculation extends RuntimeException {
