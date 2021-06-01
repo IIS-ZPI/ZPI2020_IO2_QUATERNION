@@ -2,21 +2,24 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class StatisticalMeasures {
-    static double getMedian(ArrayList<Double> list) {
+
+    static double getMedian(List<Double> list) {
         if (list == null || list.isEmpty())
             return -1;
+        List<Double> listCopy = new ArrayList<>(list);
         Collections.sort(list);
         double median;
-        if (list.size() % 2 == 0)
-            median = (list.get(list.size() / 2) + (list.get(list.size() / 2 - 1))) / 2;
+        if (listCopy.size() % 2 == 0)
+            median = (listCopy.get(listCopy.size() / 2) + (listCopy.get(listCopy.size() / 2 - 1))) / 2;
         else
-            median = list.get(list.size() / 2);
+            median = listCopy.get(listCopy.size() / 2);
         return median;
     }
 
-    static double getMode(ArrayList<Double> list) {
+    static double getMode(List<Double> list) {
         if (list == null || list.isEmpty())
             return -1;
         double maxValue = 0;
@@ -37,7 +40,7 @@ public class StatisticalMeasures {
         return maxValue;
     }
 
-    static double getMean(ArrayList<Double> list) {
+    static double getMean(List<Double> list) {
         if (list == null || list.isEmpty())
             return -1;
         double sum = 0.0;
@@ -49,7 +52,7 @@ public class StatisticalMeasures {
         return sum / list.size();
     }
 
-    static double getStandardDeviation(ArrayList<Double> list) {
+    static double getStandardDeviation(List<Double> list) {
         if (list == null || list.isEmpty())
             return -1;
         double standardDeviation = 0.0;
@@ -62,7 +65,7 @@ public class StatisticalMeasures {
         return Math.sqrt(standardDeviation / list.size());
     }
 
-    static double getCoefficientOfVariation(ArrayList<Double> list) {
+    static double getCoefficientOfVariation(List<Double> list) {
         if (list == null || list.isEmpty())
             return -1;
         return (getStandardDeviation(list) / getMean(list));
