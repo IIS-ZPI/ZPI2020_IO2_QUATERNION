@@ -6,6 +6,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class App {
     static void showStatisticalMeasuresFromXML(String currency, int timePeriod) throws IOException {
@@ -66,6 +68,15 @@ public class App {
         timePeriods.put(5, 182);
         timePeriods.put(6, 365);
 
+        final String TEST_URL = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
+        NBP[] avalibleCurrenciesTable = (NBP[]) JsonDataGetter.getUrlData(TEST_URL, NBP[].class);
+        if (avalibleCurrenciesTable == null || avalibleCurrenciesTable[0] == null){
+            System.out.println("NBP Web API service is currently not available");
+            return;
+        }
+
+        List<String> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).map(e->e.code).collect(Collectors.toList());
+        avalibleCurrencies.sort((a,b)-> a.compareTo(b));
         System.out.println("1 - Ilość sesji wzrostowych, spadkowych i bez zmian w wybranym okresie i dla wybranej waluty.");
         System.out.println("2 - Miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności w wybranym okresie i dla wybranej waluty.");
 
@@ -80,16 +91,14 @@ public class App {
             System.exit(0);
         }
 
-        // Moglibysmy pobierac liste walut i sprawdzac w mapie
-        //
-
-        System.out.println("Please type your currency");
-        try {
-            currency = scanner.nextLine();
-        }
-        catch (Exception e){
-            System.out.println("Incorrect currency");
-            System.exit(0);
+        System.out.println("Avalible currency");
+        System.out.println(avalibleCurrencies);
+        System.out.println("Please type your currency code");
+        currency = scanner.nextLine();
+        if (!avalibleCurrencies.contains(currency)){
+            System.out.println("Incorrect currency code");
+            scanner.close();
+            return;
         }
         System.out.println("wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
         try {
@@ -98,7 +107,8 @@ public class App {
         }
         catch (Exception e){
             System.out.println("Incorrect time peroid");
-            System.exit(0);
+            scanner.close();
+            return;
         }
 
         try {
