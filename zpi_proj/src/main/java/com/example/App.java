@@ -14,7 +14,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class App {
-    static void showStatisticalMeasuresFromXML(String currency, int timePeriod) throws IOException {
+    static ArrayList<Double> getData(String currency, int timePeriod){
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
                 + timePeriod + "/?format=xml";
         String doc_to_str = "";
@@ -23,7 +23,7 @@ public class App {
             doc_to_str = doc.toString();
         } catch (Exception e) {
             System.out.println("Wrong input data");
-            return;
+            return null;
         }
 
         ArrayList<Double> data = new ArrayList<>();
@@ -32,28 +32,14 @@ public class App {
             data.add(Double.parseDouble(e.text()));
         }
 
+        return data;
+    }
+
+    static void showStatisticalMeasures(ArrayList<Double> data) throws IOException {
         System.out.println(new StatisticalMeasures(data));
     }
 
-    static void showNumberOfSession(String currency, int timePeriod) throws IOException {
-        String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
-                + (timePeriod + 1) + "/?format=xml";
-        String doc_to_str = "";
-        try {
-            Document doc = Jsoup.connect(url).get();
-            doc_to_str = doc.toString();
-        } catch (Exception e) {
-            System.out.println("Wrong input data");
-            return;
-        }
-
-        ArrayList<Double> data = new ArrayList<>();
-
-        Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
-        for (Element e : doc.select("Mid")) {
-            data.add(Double.parseDouble(e.text()));
-        }
-
+    static void showNumberOfSession(ArrayList<Double> data) throws IOException {
         System.out.println();
         System.out.println("ilość sesji wzrostowych: " + SessionAnalysis.getNumberOfIncreasingSessions(data));
         System.out.println("ilość sesji spadkowych: " + SessionAnalysis.getNumberOfDecreasingSessions(data));
@@ -115,9 +101,11 @@ public class App {
 
         try {
             if (action == 1) {
-                showNumberOfSession(currency, timePeriod);
+                ArrayList<Double> data = getData(currency, timePeriod);
+                showNumberOfSession(data);
             } else {
-                showStatisticalMeasuresFromXML(currency, timePeriod);
+                ArrayList<Double> data = getData(currency, timePeriod + 1);
+                showStatisticalMeasures(data);
             }
         } catch (Exception e) {
             e.getStackTrace();
