@@ -14,32 +14,22 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class App {
-    static List<Double> getData(String currency, int timePeriod){
+
+    static final String NBP_NOT_AVAILABLE_INFO = "NBP Web API service is currently not available";
+
+    static List<Double> getData(String currency, int timePeriod) throws IOException{
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
                 + timePeriod + "/?format=xml";
-        String doc_to_str = "";
-        try {
-            Document doc = Jsoup.connect(url).get();
-            doc_to_str = doc.toString();
-        } catch (Exception e) {
-            System.out.println("Wrong input data");
-            return null;
-        }
-
+        Document doc = Jsoup.connect(url).get();
         List<Double> data = new ArrayList<>();
-        Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
+        doc = Jsoup.parse(doc.toString(), "", Parser.xmlParser());
         for (Element e : doc.select("Mid")) {
             data.add(Double.parseDouble(e.text()));
         }
         return data;
     }
 
-    static void showStatisticalMeasures(List<Double> data) throws IOException {
-        System.out.println(new StatisticalMeasures(data));
-    }
-
     static void showNumberOfSession(List<Double> data) throws IOException {
-        System.out.println();
         System.out.println("ilość sesji wzrostowych: " + SessionAnalysis.getNumberOfIncreasingSessions(data));
         System.out.println("ilość sesji spadkowych: " + SessionAnalysis.getNumberOfDecreasingSessions(data));
         System.out.println("ilość sesji bez zmian: " + SessionAnalysis.getNumberOfSessionsWithoutChange(data));
@@ -50,7 +40,7 @@ public class App {
         final String CURRENCY_TABLE = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
         NBP[] avalibleCurrenciesTable = (NBP[]) JsonDataGetter.getUrlData(CURRENCY_TABLE, NBP[].class);
         if (avalibleCurrenciesTable == null || avalibleCurrenciesTable[0] == null) {
-            System.out.println("NBP Web API service is currently not available");
+            System.out.println(NBP_NOT_AVAILABLE_INFO);
             return;
         }
 
@@ -71,12 +61,8 @@ public class App {
                 "2 - Miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności w wybranym okresie i dla wybranej waluty.");
         System.out.println("3 - Rozklad zmian.");
 
-        int action = 0;
-        int timePeriod = 0;
-        String currency = "";
-
         Scanner scanner = new Scanner(System.in);
-        action = Integer.parseInt(scanner.nextLine());
+        int action = Integer.parseInt(scanner.nextLine());
         if (action != 1 && action != 2 && action != 3) {
             System.out.println("Wrong input data (operation)");
             scanner.close();
@@ -84,31 +70,25 @@ public class App {
         }
 
         System.out.println("Avalible currency\n" + avalibleCurrencies + "\nPlease type your currency code");
-        currency = scanner.nextLine();
+        String currency = scanner.nextLine();
         if (!avalibleCurrencies.contains(currency.toUpperCase(Locale.getDefault()))) {
             System.out.println("Incorrect currency code");
             scanner.close();
             return;
         }
-        System.out.println(
-                "wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
-        try {
-            int key = Integer.parseInt(scanner.nextLine());
-            timePeriod = timePeriods.get(key);
-        } catch (Exception e) {
-            System.out.println("Incorrect time peroid");
-            scanner.close();
-            return;
-        }
+        System.out.println("wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
 
         try {
+            int key = Integer.parseInt(scanner.nextLine());
+            int timePeriod = timePeriods.get(key);
+
             if (action == 1) {
                 List<Double> data = getData(currency, timePeriod);
                 showNumberOfSession(data);
             } 
             else if (action == 2) {
                 List<Double> data = getData(currency, timePeriod + 1);
-                showStatisticalMeasures(data);
+                System.out.println(new StatisticalMeasures(data));
             }  
             else{
                 List<Double> firstCurrencyList = getData("usd",7); //TODO PRZEROBIC NA ODCZYT INPUTU
@@ -116,8 +96,13 @@ public class App {
                 DistributionOfChanges test = new DistributionOfChanges(firstCurrencyList, secondCurrencyList);
                 System.out.println(test);
             }
-        } catch (Exception e) {
-            e.getStackTrace();
+        }
+        catch(NumberFormatException err){
+            System.out.println("Incorrect time peroid");
+            scanner.close();
+            return;
+        }catch (IOException e) {
+            System.out.println(NBP_NOT_AVAILABLE_INFO);
         }
 
         scanner.close();
