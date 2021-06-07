@@ -69,13 +69,24 @@ public class App {
             return;
         }
 
-        System.out.println("Avalible currency\n" + avalibleCurrencies + "\nPlease type your currency code");
+        System.out.println("Avalible currency\n" + avalibleCurrencies + "\nPlease type your" + (action == 3 ? " first" : "") + " currency code");
         String currency = scanner.nextLine();
         if (!avalibleCurrencies.contains(currency.toUpperCase(Locale.getDefault()))) {
             System.out.println("Incorrect currency code");
             scanner.close();
             return;
         }
+        String currency2 = null;
+        if (action == 3){
+            System.out.println("Type second currency code");
+            currency2 = scanner.nextLine();
+            if (!avalibleCurrencies.contains(currency2.toUpperCase(Locale.getDefault()))) {
+                System.out.println("Incorrect currency code");
+                scanner.close();
+                return;
+            }
+        }
+
         System.out.println("wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
 
         try {
@@ -91,10 +102,9 @@ public class App {
                 System.out.println(new StatisticalMeasures(data));
             }  
             else{
-                List<Double> firstCurrencyList = getData("usd",7); //TODO PRZEROBIC NA ODCZYT INPUTU
-                List<Double> secondCurrencyList = getData("eur",7);
-                DistributionOfChanges test = new DistributionOfChanges(firstCurrencyList, secondCurrencyList);
-                System.out.println(test);
+                List<Double> firstCurrencyList = getData(currency,timePeriod);
+                List<Double> secondCurrencyList = getData(currency2,timePeriod);
+                System.out.println(new DistributionOfChanges(firstCurrencyList, secondCurrencyList));
             }
         }
         catch(NumberFormatException err){
