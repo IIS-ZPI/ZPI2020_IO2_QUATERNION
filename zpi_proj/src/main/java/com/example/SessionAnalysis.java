@@ -1,9 +1,8 @@
 package com.example;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class SessionAnalysis {
-    static int getNumberOfIncreasingSessions(ArrayList<Double> data){
+    static int getNumberOfIncreasingSessions(List<Double> data){
         if(data==null || data.isEmpty())
             return -1;
         int res = 0;
@@ -14,7 +13,7 @@ public class SessionAnalysis {
         return res;
     }
 
-    static int getNumberOfDecreasingSessions(ArrayList<Double> data){
+    static int getNumberOfDecreasingSessions(List<Double> data){
         if(data==null || data.isEmpty())
             return -1;
         int res = 0;
@@ -25,7 +24,7 @@ public class SessionAnalysis {
         return res;
     }
 
-    static int getNumberOfSessionsWithoutChange(ArrayList<Double> data){
+    static int getNumberOfSessionsWithoutChange(List<Double> data){
         if(data==null || data.isEmpty())
             return -1;
         int res = 0;

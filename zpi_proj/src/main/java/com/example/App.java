@@ -14,7 +14,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class App {
-    static ArrayList<Double> getData(String currency, int timePeriod){
+    static List<Double> getData(String currency, int timePeriod){
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
                 + timePeriod + "/?format=xml";
         String doc_to_str = "";
@@ -26,20 +26,19 @@ public class App {
             return null;
         }
 
-        ArrayList<Double> data = new ArrayList<>();
+        List<Double> data = new ArrayList<>();
         Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
         for (Element e : doc.select("Mid")) {
             data.add(Double.parseDouble(e.text()));
         }
-
         return data;
     }
 
-    static void showStatisticalMeasures(ArrayList<Double> data) throws IOException {
+    static void showStatisticalMeasures(List<Double> data) throws IOException {
         System.out.println(new StatisticalMeasures(data));
     }
 
-    static void showNumberOfSession(ArrayList<Double> data) throws IOException {
+    static void showNumberOfSession(List<Double> data) throws IOException {
         System.out.println();
         System.out.println("ilość sesji wzrostowych: " + SessionAnalysis.getNumberOfIncreasingSessions(data));
         System.out.println("ilość sesji spadkowych: " + SessionAnalysis.getNumberOfDecreasingSessions(data));
@@ -80,6 +79,7 @@ public class App {
         action = Integer.parseInt(scanner.nextLine());
         if (action != 1 && action != 2 && action != 3) {
             System.out.println("Wrong input data (operation)");
+            scanner.close();
             return;
         }
 
@@ -103,28 +103,18 @@ public class App {
 
         try {
             if (action == 1) {
-                ArrayList<Double> data = getData(currency, timePeriod);
+                List<Double> data = getData(currency, timePeriod);
                 showNumberOfSession(data);
             } 
             else if (action == 2) {
-                ArrayList<Double> data = getData(currency, timePeriod + 1);
+                List<Double> data = getData(currency, timePeriod + 1);
                 showStatisticalMeasures(data);
             }  
             else{
-                String currency2str = "eur";
-                final String currencyUrl = "http://api.nbp.pl/api/exchangerates/rates/A/" + currency + "/?format=json";
-                final String currencyUrl2 = "http://api.nbp.pl/api/exchangerates/rates/A/" + currency2str + "/?format=json";
-                NBP[] values1 = (NBP[]) JsonDataGetter.getUrlData(currencyUrl, NBP[].class);
-                NBP[] values2 = (NBP[]) JsonDataGetter.getUrlData(currencyUrl2, NBP[].class);
-                if (values1 == null || values2== null || values1[0].rates != values2[0].rates)
-                    System.out.println("Wrong ....");
-                List<String> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).map(e -> e.code)
-                    .collect(Collectors.toList());
-                List<String> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).map(e -> e.code)
-                    .collect(Collectors.toList());
-
-                for(double value : values2[0].rates[i]
-                DistributionOfChanges(currency, currency2);
+                List<Double> firstCurrencyList = getData("usd",7); //TODO PRZEROBIC NA ODCZYT INPUTU
+                List<Double> secondCurrencyList = getData("eur",7);
+                DistributionOfChanges test = new DistributionOfChanges(firstCurrencyList, secondCurrencyList);
+                System.out.println(test);
             }
         } catch (Exception e) {
             e.getStackTrace();
