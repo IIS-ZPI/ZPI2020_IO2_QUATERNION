@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class App {
+
     static void showStatisticalMeasuresFromXML(String currency, int timePeriod) throws IOException {
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
                 + timePeriod + "/?format=xml";
@@ -61,6 +62,14 @@ public class App {
     }
 
     public static void main(String[] args) {
+
+        final String CURRENCY_TABLE = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
+        NBP[] avalibleCurrenciesTable = (NBP[]) JsonDataGetter.getUrlData(CURRENCY_TABLE, NBP[].class);
+        if (avalibleCurrenciesTable == null || avalibleCurrenciesTable[0] == null) {
+            System.out.println("NBP Web API service is currently not available");
+            return;
+        }
+
         HashMap<Integer, Integer> timePeriods = new HashMap<>();
         timePeriods.put(1, 7);
         timePeriods.put(2, 14);
@@ -69,13 +78,6 @@ public class App {
         timePeriods.put(5, 182);
         timePeriods.put(6, 365);
 
-        final String TEST_URL = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
-        NBP[] avalibleCurrenciesTable = (NBP[]) JsonDataGetter.getUrlData(TEST_URL, NBP[].class);
-        if (avalibleCurrenciesTable == null || avalibleCurrenciesTable[0] == null) {
-            System.out.println("NBP Web API service is currently not available");
-            return;
-        }
-
         List<String> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).map(e -> e.code)
                 .collect(Collectors.toList());
         avalibleCurrencies.sort((a, b) -> a.compareTo(b));
@@ -83,21 +85,22 @@ public class App {
                 "1 - Ilość sesji wzrostowych, spadkowych i bez zmian w wybranym okresie i dla wybranej waluty.");
         System.out.println(
                 "2 - Miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności w wybranym okresie i dla wybranej waluty.");
+        System.out.println("3 - Rozklad zmian.");
 
         int action = 0;
-        String currency = "";
         int timePeriod = 0;
+        String currency = "";
 
         Scanner scanner = new Scanner(System.in);
         action = Integer.parseInt(scanner.nextLine());
-        if (action != 1 && action != 2) {
+        if (action != 1 && action != 2 && action != 3) {
             System.out.println("Wrong input data (operation)");
-            System.exit(0);
+            return;
         }
 
         System.out.println("Avalible currency\n" + avalibleCurrencies + "\nPlease type your currency code");
         currency = scanner.nextLine();
-        if (!avalibleCurrencies.contains(currency.toUpperCase())) {
+        if (!avalibleCurrencies.contains(currency.toUpperCase(Locale.getDefault()))) {
             System.out.println("Incorrect currency code");
             scanner.close();
             return;
@@ -116,8 +119,25 @@ public class App {
         try {
             if (action == 1) {
                 showNumberOfSession(currency, timePeriod);
-            } else {
+            } 
+            else if (action == 2) {
                 showStatisticalMeasuresFromXML(currency, timePeriod);
+            }  
+            else{
+                String currency2str = "eur";
+                final String currencyUrl = "http://api.nbp.pl/api/exchangerates/rates/A/" + currency + "/?format=json";
+                final String currencyUrl2 = "http://api.nbp.pl/api/exchangerates/rates/A/" + currency2str + "/?format=json";
+                NBP[] values1 = (NBP[]) JsonDataGetter.getUrlData(currencyUrl, NBP[].class);
+                NBP[] values2 = (NBP[]) JsonDataGetter.getUrlData(currencyUrl2, NBP[].class);
+                if (values1 == null || values2== null || values1[0].rates != values2[0].rates)
+                    System.out.println("Wrong ....");
+                List<String> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).map(e -> e.code)
+                    .collect(Collectors.toList());
+                List<String> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).map(e -> e.code)
+                    .collect(Collectors.toList());
+
+                for(double value : values2[0].rates[i]
+                DistributionOfChanges(currency, currency2);
             }
         } catch (Exception e) {
             e.getStackTrace();
