@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.example.StatisticalMeasures.IncorrectCalculation;
-
 import org.junit.Test;
 
 public class StatisticalMeasuresTest {
@@ -16,7 +14,7 @@ public class StatisticalMeasuresTest {
         boolean exceptionThrown = false;
         try {
             new StatisticalMeasures(null);
-        } catch (IncorrectCalculation ic) {
+        } catch (IncorrectListException ic) {
             exceptionThrown = true;
         }
         assertTrue("StatisticalMeasures(null) didn't throw an exception", exceptionThrown);
@@ -25,7 +23,7 @@ public class StatisticalMeasuresTest {
         List<Double> exampleData = new ArrayList<>();
         try {
             new StatisticalMeasures(exampleData);
-        } catch (IncorrectCalculation ic) {
+        } catch (IncorrectListException ic) {
             exceptionThrown = true;
         }
         assertTrue("StatisticalMeasures(list empty) didn't throw an exception", exceptionThrown);
@@ -64,7 +62,7 @@ public class StatisticalMeasuresTest {
                 exampleData.add(Double.valueOf(i));
             median = new StatisticalMeasures(exampleData).getMedian();
             assertTrue("median returned wrong value", 5.5 == median);
-        } catch (IncorrectCalculation ic) {
+        } catch (IncorrectListException ic) {
             System.out.println(ic.getMessage());
             assertTrue("exception thrown with correct data", true);
         }
@@ -103,7 +101,7 @@ public class StatisticalMeasuresTest {
                 exampleData.add(Double.valueOf(i));
             mean = new StatisticalMeasures(exampleData).getMean();
             assertTrue("mean returned wrong value", 0.0 == mean);
-        } catch (IncorrectCalculation ic) {
+        } catch (IncorrectListException ic) {
             System.out.println(ic.getMessage());
             assertTrue("exception thrown with correct data", true);
         }
@@ -143,7 +141,7 @@ public class StatisticalMeasuresTest {
                 exampleData.add(Double.valueOf(i));
             stdDev = new StatisticalMeasures(exampleData).getStdDeviation();
             assertTrue("stdDeviation returned wrong value", stdDev > 58.02 && stdDev < 58.03);
-        } catch (IncorrectCalculation ic) {
+        } catch (IncorrectListException ic) {
             System.out.println(ic.getMessage());
             assertTrue("exception thrown with correct data", true);
         }
@@ -188,7 +186,7 @@ public class StatisticalMeasuresTest {
             exampleData.add(44.0);
             mode = new StatisticalMeasures(exampleData).getMode();
             assertTrue("mode returned wrong value", adHocListEqualsArray(mode, new Double[] { 55.0, 44.0 }, false));
-        } catch (IncorrectCalculation ic) {
+        } catch (IncorrectListException ic) {
             System.out.println(ic.getMessage());
             assertTrue("exception thrown with correct data", true);
         }
