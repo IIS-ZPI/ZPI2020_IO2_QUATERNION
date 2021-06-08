@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DistributionOfChanges {
-    static ArrayList<Double> getDistributionOfChanges(List<Double> data) {
-        if (data == null || data.size() < 2)
-            return null;
+    private List<Double> distribution;
 
-        ArrayList<Double> diff = new ArrayList<>();
-        for (int i = 1; i < data.size(); i++) {
-            double current_diff = ((data.get(i) / data.get(i - 1)) - 1) * 100;
-            diff.add(current_diff);
+    DistributionOfChanges(List<Double> list){
+        if (list == null || list.size() < 2)
+            throw new IncorrectListException();
+        distribution = new ArrayList<>();
+        for (int i = 1; i < list.size(); i++) {
+            double current_diff = ((list.get(i) / list.get(i - 1)) - 1) * 100;
+            distribution.add(current_diff);
         }
-        return diff;
     }
+
+    public List<Double> getDistribution() {
+        return this.distribution;
+    }
+    
 }

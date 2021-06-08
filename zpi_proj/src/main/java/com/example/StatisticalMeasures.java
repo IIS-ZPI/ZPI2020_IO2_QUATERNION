@@ -44,23 +44,13 @@ class StatisticalMeasures {
 
     StatisticalMeasures(List<Double> list) {
         if (list == null || list.isEmpty())
-            throw new IncorrectCalculation();
+            throw new IncorrectListException();
         this.list = list;
         this.mean = calculateMean();
-        this.mode = calulateMode();
+        this.mode = calсulateMode();
         this.median = calculateMedian();
         this.stdDeviation = getStandardDeviation();
         this.coeVar = calculateCoefficientOfVariation();
-    }
-
-    class IncorrectCalculation extends RuntimeException {
-        IncorrectCalculation(String errorMessage, Throwable err) {
-            super(errorMessage, err);
-        }
-
-        IncorrectCalculation() {
-            super();
-        }
     }
 
     private double calculateMedian() {
@@ -73,7 +63,7 @@ class StatisticalMeasures {
         return median;
     }
 
-    private List<Double> calulateMode() {
+    private List<Double> calсulateMode() {
 
         Map<Double,Integer> occurences = new HashMap<>();
         for (Double val : list) {
