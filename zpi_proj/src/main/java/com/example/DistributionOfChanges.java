@@ -2,9 +2,7 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 class Distributionvalue{
     private double min;
@@ -76,7 +74,7 @@ public class DistributionOfChanges {
         return distribution.toString();
     }
 
-    public List<Double> getDistribution() {
+    public List<Distributionvalue> getDistribution() {
         return this.distribution;
     }
 
