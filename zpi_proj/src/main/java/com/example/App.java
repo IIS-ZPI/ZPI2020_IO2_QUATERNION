@@ -29,14 +29,6 @@ public class App {
         return data;
     }
 
-    static void showStatisticalMeasures(ArrayList<Double> data) throws IOException {
-        System.out.println(new StatisticalMeasures(data));
-    }
-
-    static void showNumberOfSession(ArrayList<Double> data) throws IOException {
-        System.out.println(new SessionAnalysis(data));
-    }
-
     public static void main(String[] args) {
 
         final String CURRENCY_TABLE = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
@@ -97,7 +89,7 @@ public class App {
 
             if (action == 1) {
                 List<Double> data = getData(currency, timePeriod);
-                showNumberOfSession(data);
+                System.out.println(new SessionAnalysis(data));
             } 
             else if (action == 2) {
                 List<Double> data = getData(currency, timePeriod + 1);
