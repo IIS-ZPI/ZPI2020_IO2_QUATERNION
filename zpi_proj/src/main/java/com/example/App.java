@@ -5,16 +5,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import java.io.IOException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class App {
-    static ArrayList<Double> getData(String currency, int timePeriod){
+    static List<Double> getData(String currency, int timePeriod){
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
                 + timePeriod + "/?format=xml";
         String doc_to_str = "";
@@ -26,7 +26,7 @@ public class App {
             return null;
         }
 
-        ArrayList<Double> data = new ArrayList<>();
+        List<Double> data = new ArrayList<>();
         Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
         for (Element e : doc.select("Mid")) {
             data.add(Double.parseDouble(e.text()));
@@ -35,11 +35,11 @@ public class App {
         return data;
     }
 
-    static void showStatisticalMeasures(ArrayList<Double> data) throws IOException {
+    static void showStatisticalMeasures(List<Double> data) throws IOException {
         System.out.println(new StatisticalMeasures(data));
     }
 
-    static void showNumberOfSession(ArrayList<Double> data) throws IOException {
+    static void showNumberOfSession(List<Double> data) throws IOException {
         System.out.println(new SessionAnalysis(data));
     }
 
@@ -98,10 +98,10 @@ public class App {
 
         try {
             if (action == 1) {
-                ArrayList<Double> data = getData(currency, timePeriod);
+                List<Double> data = getData(currency, timePeriod);
                 showNumberOfSession(data);
             } else {
-                ArrayList<Double> data = getData(currency, timePeriod + 1);
+                List<Double> data = getData(currency, timePeriod + 1);
                 showStatisticalMeasures(data);
             }
         } catch (Exception e) {
