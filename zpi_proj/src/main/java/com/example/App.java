@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,14 +13,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-
 public class App {
 
     static final String NBP_NOT_AVAILABLE_INFO = "NBP Web API service is currently not available";
 
-    static List<Double> getData(String currency, int timePeriod) throws IOException{
-        String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
-                + timePeriod + "/?format=xml";
+    static List<Double> getData(String currency,int timePeriod) throws IOException{
+
+        LocalDate today = LocalDate.now();
+        LocalDate start = today.plusDays(-timePeriod);
+
+        String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + '/'+ start + '/'+ today + "/?format=xml";
         Document doc = Jsoup.connect(url).get();
         List<Double> data = new ArrayList<>();
         doc = Jsoup.parse(doc.toString(), "", Parser.xmlParser());
@@ -37,7 +40,6 @@ public class App {
             System.out.println(NBP_NOT_AVAILABLE_INFO);
             return;
         }
-
         HashMap<Integer, Integer> timePeriods = new HashMap<>();
         timePeriods.put(1, 7);
         timePeriods.put(2, 14);
