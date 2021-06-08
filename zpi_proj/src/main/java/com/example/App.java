@@ -29,10 +29,12 @@ public class App {
         return data;
     }
 
-    static void showNumberOfSession(List<Double> data) throws IOException {
-        System.out.println("ilość sesji wzrostowych: " + SessionAnalysis.getNumberOfIncreasingSessions(data));
-        System.out.println("ilość sesji spadkowych: " + SessionAnalysis.getNumberOfDecreasingSessions(data));
-        System.out.println("ilość sesji bez zmian: " + SessionAnalysis.getNumberOfSessionsWithoutChange(data));
+    static void showStatisticalMeasures(ArrayList<Double> data) throws IOException {
+        System.out.println(new StatisticalMeasures(data));
+    }
+
+    static void showNumberOfSession(ArrayList<Double> data) throws IOException {
+        System.out.println(new SessionAnalysis(data));
     }
 
     public static void main(String[] args) {
