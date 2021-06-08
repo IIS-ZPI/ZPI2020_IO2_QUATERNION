@@ -14,36 +14,30 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class App {
-    static ArrayList<Double> getData(String currency, int timePeriod){
+
+    static final String NBP_NOT_AVAILABLE_INFO = "NBP Web API service is currently not available";
+
+    static List<Double> getData(String currency, int timePeriod) throws IOException{
         String url = "http://api.nbp.pl/api/exchangerates/rates/a/" + currency.toLowerCase(Locale.ROOT) + "/last/"
                 + timePeriod + "/?format=xml";
-        String doc_to_str = "";
-        try {
-            Document doc = Jsoup.connect(url).get();
-            doc_to_str = doc.toString();
-        } catch (Exception e) {
-            System.out.println("Wrong input data");
-            return null;
-        }
-
-        ArrayList<Double> data = new ArrayList<>();
-        Document doc = Jsoup.parse(doc_to_str, "", Parser.xmlParser());
+        Document doc = Jsoup.connect(url).get();
+        List<Double> data = new ArrayList<>();
+        doc = Jsoup.parse(doc.toString(), "", Parser.xmlParser());
         for (Element e : doc.select("Mid")) {
             data.add(Double.parseDouble(e.text()));
         }
-
         return data;
     }
 
-    static void showStatisticalMeasures(ArrayList<Double> data) throws IOException {
-        System.out.println(new StatisticalMeasures(data));
-    }
-
-    static void showNumberOfSession(ArrayList<Double> data) throws IOException {
-        System.out.println(new SessionAnalysis(data));
-    }
-
     public static void main(String[] args) {
+
+        final String CURRENCY_TABLE = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
+        NBP[] avalibleCurrenciesTable = (NBP[]) JsonDataGetter.getUrlData(CURRENCY_TABLE, NBP[].class);
+        if (avalibleCurrenciesTable == null || avalibleCurrenciesTable[0] == null) {
+            System.out.println(NBP_NOT_AVAILABLE_INFO);
+            return;
+        }
+
         HashMap<Integer, Integer> timePeriods = new HashMap<>();
         timePeriods.put(1, 7);
         timePeriods.put(2, 14);
@@ -52,13 +46,6 @@ public class App {
         timePeriods.put(5, 182);
         timePeriods.put(6, 365);
 
-        final String TEST_URL = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json/";
-        NBP[] avalibleCurrenciesTable = (NBP[]) JsonDataGetter.getUrlData(TEST_URL, NBP[].class);
-        if (avalibleCurrenciesTable == null || avalibleCurrenciesTable[0] == null) {
-            System.out.println("NBP Web API service is currently not available");
-            return;
-        }
-
         List<String> avalibleCurrencies = Arrays.stream(avalibleCurrenciesTable[0].rates).map(e -> e.code)
                 .collect(Collectors.toList());
         avalibleCurrencies.sort((a, b) -> a.compareTo(b));
@@ -66,46 +53,60 @@ public class App {
                 "1 - Ilość sesji wzrostowych, spadkowych i bez zmian w wybranym okresie i dla wybranej waluty.");
         System.out.println(
                 "2 - Miary statystyczne: miediana, dominanta, odchylenie standardowe i współczynnik zmienności w wybranym okresie i dla wybranej waluty.");
-
-        int action = 0;
-        String currency = "";
-        int timePeriod = 0;
+        System.out.println("3 - Rozklad zmian.");
 
         Scanner scanner = new Scanner(System.in);
-        action = Integer.parseInt(scanner.nextLine());
-        if (action != 1 && action != 2) {
+        int action = Integer.parseInt(scanner.nextLine());
+        if (action != 1 && action != 2 && action != 3) {
             System.out.println("Wrong input data (operation)");
-            System.exit(0);
+            scanner.close();
+            return;
         }
 
-        System.out.println("Avalible currency\n" + avalibleCurrencies + "\nPlease type your currency code");
-        currency = scanner.nextLine();
-        if (!avalibleCurrencies.contains(currency.toUpperCase())) {
+        System.out.println("Avalible currency\n" + avalibleCurrencies + "\nPlease type your" + (action == 3 ? " first" : "") + " currency code");
+        String currency = scanner.nextLine();
+        if (!avalibleCurrencies.contains(currency.toUpperCase(Locale.getDefault()))) {
             System.out.println("Incorrect currency code");
             scanner.close();
             return;
         }
-        System.out.println(
-                "wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
+        String currency2 = null;
+        if (action == 3){
+            System.out.println("Type second currency code");
+            currency2 = scanner.nextLine();
+            if (!avalibleCurrencies.contains(currency2.toUpperCase(Locale.getDefault()))) {
+                System.out.println("Incorrect currency code");
+                scanner.close();
+                return;
+            }
+        }
+
+        System.out.println("wpisz okres:\n1 - 1 tydzień,\n2 - 2 tygodni,\n3 - 1 miesięc,\n4 - 1 kwartał,\n5 - pół roku\n6 - 1 rok");
+
         try {
             int key = Integer.parseInt(scanner.nextLine());
-            timePeriod = timePeriods.get(key);
-        } catch (Exception e) {
+            int timePeriod = timePeriods.get(key);
+
+            if (action == 1) {
+                List<Double> data = getData(currency, timePeriod);
+                System.out.println(new SessionAnalysis(data));
+            } 
+            else if (action == 2) {
+                List<Double> data = getData(currency, timePeriod + 1);
+                System.out.println(new StatisticalMeasures(data));
+            }  
+            else{
+                List<Double> firstCurrencyList = getData(currency,timePeriod);
+                List<Double> secondCurrencyList = getData(currency2,timePeriod);
+                System.out.println(new DistributionOfChanges(firstCurrencyList, secondCurrencyList));
+            }
+        }
+        catch(NumberFormatException err){
             System.out.println("Incorrect time peroid");
             scanner.close();
             return;
-        }
-
-        try {
-            if (action == 1) {
-                ArrayList<Double> data = getData(currency, timePeriod);
-                showNumberOfSession(data);
-            } else {
-                ArrayList<Double> data = getData(currency, timePeriod + 1);
-                showStatisticalMeasures(data);
-            }
-        } catch (Exception e) {
-            e.getStackTrace();
+        }catch (IOException e) {
+            System.out.println(NBP_NOT_AVAILABLE_INFO);
         }
 
         scanner.close();
