@@ -3,7 +3,7 @@ package com.example;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Arrays; 
 import java.util.List;
 
 import org.junit.Test;
@@ -17,7 +17,7 @@ public class DistributionOfChangesTest {
         List<Double> exampleData = null;
         List<Double> exampleData2 = null;
         boolean exceptionThrown = false;
-        List<Double> distribution;
+        List<Distributionvalue> distribution;
         try {
             distribution = new DistributionOfChanges(exampleData, exampleData2).getDistribution();
         } catch (IncorrectListException e) {

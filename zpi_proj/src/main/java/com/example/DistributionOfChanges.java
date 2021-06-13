@@ -1,24 +1,81 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class DistributionOfChanges {
-    public static final boolean readyToBeTested = false;// set to true to activate tests
-    private List<Double> distribution;
+class Distributionvalue{
+    private double min;
+    private double max;
+    private int counter;
 
-    // TODO:write this
+    Distributionvalue(double min,double max,int counter){
+        this.min = min;
+        this.max = max;
+        this.counter = counter;
+    }
+    @Override
+    public String toString() {
+        final String minFormated = String.format("%.4f",min);
+        final String maxFormated = String.format("%.4f",max);
+        return "( " + minFormated + ',' + maxFormated + " ) liczba zmian: " + counter;  
+    }
+}
+
+public class DistributionOfChanges {
+    private static final int INTERVAL_AMOUNT = 11; //! For 10 peroids
+    public static final boolean readyToBeTested = true;// set to true to activate tests
+    private List<Distributionvalue> distribution;
+
     DistributionOfChanges(List<Double> currency1, List<Double> currency2) {
         if (currency1 == null || currency2 == null || currency1.size() != currency2.size() || currency1.size() < 2)
             throw new IncorrectListException();
-        System.out.println(currency1);
-        System.out.println(currency2);
-        // List<Double> diffrences = new ArrayList<>(currency1.size());
-        // for(int i = 0 ;i<currency1.size();i++){
-        // diffrences.add(currency1.get(i) - currency2.get(i));
-        // }
+
+        List<Double> dividedList= new ArrayList<>(currency1.size());
+        for(int i = 0 ;i<currency1.size();i++){
+            dividedList.add(currency1.get(i)/currency2.get(i));
+        }
+        
+        List<Double> diffrenceList = new ArrayList<>(currency1.size());
+        diffrenceList.add(0.0);
+        for(int i = 1 ;i<dividedList.size();i++){
+            diffrenceList.add(dividedList.get(i)-dividedList.get(i-1));
+        }
+
+        double max = Collections.max(diffrenceList);
+        double min = Collections.min(diffrenceList);
+        double[] intervals = linspace(min,max);
+        int[] counters = new int[INTERVAL_AMOUNT-1];
+
+        // start=1 range (index-1,index> compare with min and max value
+        for(int i = 1;i<INTERVAL_AMOUNT;i++){
+            for(int j = 0;j<diffrenceList.size();j++){
+                if(diffrenceList.get(j) >= intervals[i-1] && diffrenceList.get(j) < intervals[i]){
+                    counters[i-1]++;
+                }
+            }
+        }
+        distribution = new ArrayList<>(INTERVAL_AMOUNT-1);
+        for(int i = 1;i<INTERVAL_AMOUNT;i++){
+            distribution.add(new Distributionvalue(intervals[i-1],intervals[i],counters[i-1]));
+        }
     }
 
-    public List<Double> getDistribution() {
+    private double[] linspace(double min, double max) {  
+        double[] d = new double[INTERVAL_AMOUNT];  
+        for (int i = 0; i < INTERVAL_AMOUNT; i++){  
+            d[i] = min + i * (max - min) / (INTERVAL_AMOUNT - 1);  
+        }  
+        return d;  
+    }  
+
+
+    @Override
+    public String toString() {
+        return distribution.toString();
+    }
+
+    public List<Distributionvalue> getDistribution() {
         return this.distribution;
     }
 
