@@ -24,7 +24,7 @@ class Distributionvalue{
 
 public class DistributionOfChanges {
     private static final int INTERVAL_AMOUNT = 11; //! For 10 peroids
-    public static final boolean readyToBeTested = false;// set to true to activate tests
+    public static final boolean readyToBeTested = true;// set to true to activate tests
     private List<Distributionvalue> distribution;
 
     DistributionOfChanges(List<Double> currency1, List<Double> currency2) {
