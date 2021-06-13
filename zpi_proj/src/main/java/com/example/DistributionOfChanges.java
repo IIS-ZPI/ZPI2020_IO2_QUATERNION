@@ -16,12 +16,14 @@ class Distributionvalue{
     }
     @Override
     public String toString() {
-        return "( " + min + ' ' + max + " ) liczba zmian: " + counter;  
+        final String minFormated = String.format("%.4f",min);
+        final String maxFormated = String.format("%.4f",max);
+        return "( " + minFormated + ',' + maxFormated + " ) liczba zmian: " + counter;  
     }
 }
 
 public class DistributionOfChanges {
-    private static final int INTERVAL_AMOUNT = 10;
+    private static final int INTERVAL_AMOUNT = 11; //! For 10 peroids
     public static final boolean readyToBeTested = false;// set to true to activate tests
     private List<Distributionvalue> distribution;
 
@@ -57,7 +59,6 @@ public class DistributionOfChanges {
         for(int i = 1;i<INTERVAL_AMOUNT;i++){
             distribution.add(new Distributionvalue(intervals[i-1],intervals[i],counters[i-1]));
         }
-        //TODO IS THAT ALL?
     }
 
     private double[] linspace(double min, double max) {  
