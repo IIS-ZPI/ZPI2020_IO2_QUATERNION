@@ -16,7 +16,7 @@ class Distributionvalue{
     }
     @Override
     public String toString() {
-        return "(" + min + ' ' + max + " ) value: " + counter;  
+        return "\n(" + min + ' ' + max + " ) liczba zmian: " + counter;  
     }
 }
 
@@ -43,7 +43,7 @@ public class DistributionOfChanges {
         double max = Collections.max(diffrenceList);
         double min = Collections.min(diffrenceList);
         double[] intervals = linspace(min,max);
-        int[] counters = {0};
+        int[] counters = new int[INTERVAL_AMOUNT-1];
 
         // start=1 range (index-1,index> compare with min and max value
         for(int i = 1;i<INTERVAL_AMOUNT;i++){
