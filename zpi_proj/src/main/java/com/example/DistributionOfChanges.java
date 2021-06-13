@@ -16,7 +16,7 @@ class Distributionvalue{
     }
     @Override
     public String toString() {
-        return "\n(" + min + ' ' + max + " ) liczba zmian: " + counter;  
+        return "( " + min + ' ' + max + " ) liczba zmian: " + counter;  
     }
 }
 

@@ -100,7 +100,10 @@ public class App {
             else{
                 List<Double> firstCurrencyList = getData(currency,timePeriod);
                 List<Double> secondCurrencyList = getData(currency2,timePeriod);
-                System.out.println(new DistributionOfChanges(firstCurrencyList, secondCurrencyList));
+                List<Distributionvalue> distributionList = new DistributionOfChanges(firstCurrencyList, secondCurrencyList).getDistribution();
+                for(Distributionvalue peroid : distributionList){
+                    System.out.println(peroid);
+                }
             }
         }
         catch(NumberFormatException err){
