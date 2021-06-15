@@ -13,6 +13,7 @@ public class JsonDataGetter {
         try {
             Gson gson = new Gson();
             URL nbpUrl = new URL(url);
+            System.out.println(nbpUrl);
             JsonReader reader = new JsonReader(new InputStreamReader(nbpUrl.openStream(), StandardCharsets.UTF_8));
             jsonParsed = gson.fromJson(reader, Type);
         }catch(JsonSyntaxException e){

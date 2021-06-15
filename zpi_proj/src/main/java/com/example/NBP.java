@@ -10,7 +10,6 @@ public class NBP{
 
     @Override
     public String toString() {
-        
         return table +' '+ no +' '+ effectiveDate +' ' + Arrays.toString(rates);
     }
 }
